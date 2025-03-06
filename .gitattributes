@@ -4,3 +4,4 @@
 # Ignore files in dist/ and build/ from language stats
 dist/* linguist-vendored
 build/* linguist-vendored
+xref-imageresizercropper.html linguist-vendored
