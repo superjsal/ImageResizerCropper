@@ -1,1 +1,6 @@
+# Force .py files to be recognized as Python
 *.py linguist-language=Python
+
+# Ignore files in dist/ and build/ from language stats
+dist/* linguist-vendored
+build/* linguist-vendored
