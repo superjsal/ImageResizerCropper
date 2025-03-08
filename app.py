@@ -62,7 +62,7 @@ class ImageResizerApp(QWidget):
         self.file_list = QListWidget()
         self.file_list.setStyleSheet(
             "background-color: #3e3e3e; color: white; border-radius: 5px;"
-            "font-size: 16px; padding: 5px;"
+            "font-size: 12px; padding: 5px;"
         )
         self.layout.addWidget(self.file_list)
 
@@ -77,6 +77,7 @@ class ImageResizerApp(QWidget):
         browse_button.setStyleSheet(
             "background-color: #6c757d; color: white; border-radius: 5px;"
             "font-size: 16px; padding: 10px;"
+            "outline: none;"
         )
         browse_button.clicked.connect(self.browse_images)
         self.layout.addWidget(browse_button)
@@ -89,6 +90,7 @@ class ImageResizerApp(QWidget):
         btn_1200x628.setStyleSheet(
             "background-color: #4CAF50; color: white; border-radius: 5px;"
             "font-size: 16px; padding: 10px;"
+            "outline: none;"
         )
         btn_1200x628.clicked.connect(lambda: self.set_size(1200, 628))
         button_layout.addWidget(btn_1200x628)
@@ -97,6 +99,7 @@ class ImageResizerApp(QWidget):
         btn_640x420.setStyleSheet(
             "background-color: #008CBA; color: white; border-radius: 5px;"
             "font-size: 16px; padding: 10px;"
+            "outline: none;"
         )
         btn_640x420.clicked.connect(lambda: self.set_size(640, 420))
         button_layout.addWidget(btn_640x420)
@@ -128,6 +131,7 @@ class ImageResizerApp(QWidget):
         btn_custom.setStyleSheet(
             "background-color: #f39c12; color: white; border-radius: 5px;"
             "font-size: 16px; padding: 10px;"
+            "outline: none;"
         )
         btn_custom.clicked.connect(self.set_custom_size)
         self.layout.addWidget(btn_custom)
@@ -137,6 +141,7 @@ class ImageResizerApp(QWidget):
         btn_clear.setStyleSheet(
             "background-color: #D32F2F; color: white; border-radius: 5px;"
             "font-size: 16px; padding: 10px;"
+            "outline: none;"
         )
         btn_clear.clicked.connect(self.clear_images)
         self.layout.addWidget(btn_clear)
@@ -146,6 +151,7 @@ class ImageResizerApp(QWidget):
         btn_folder.setStyleSheet(
             "background-color: #555; color: white; border-radius: 5px;"
             "font-size: 16px; padding: 10px;"
+            "outline: none;"
         )
         btn_folder.clicked.connect(self.select_output_folder)
         self.layout.addWidget(btn_folder)
@@ -206,8 +212,8 @@ class ImageResizerApp(QWidget):
             )
 
     def process_images(self):
-        """Resize each image in self.dragged_files to self.target_size
-        and save to self.output_folder."""
+        """Resize each image in self.dragged_files to self.target_size,
+        save to self.output_folder, and then delete the original image."""
         if not self.dragged_files:
             self.status_label.setText("No images have been added!")
             return
@@ -217,6 +223,12 @@ class ImageResizerApp(QWidget):
             filename = os.path.basename(img_path)
             output_path = os.path.join(self.output_folder, filename)
             self.resize_and_crop_save(img_path, output_path, self.target_size)
+
+            # Delete the original file after processing
+            try:
+                os.remove(img_path)
+            except Exception as e:
+                print(f"Error deleting file {img_path}: {e}")
 
         # Show success message
         self.status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
