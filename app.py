@@ -1,6 +1,9 @@
 import os
 import json
 
+# pip install PyQt5
+# pip install pillow
+
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
